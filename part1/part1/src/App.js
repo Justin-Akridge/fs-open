@@ -1,57 +1,57 @@
-const Header = (props) => {
-  
-  return (
-    <h1>{props.course}</h1>
-  )
-}
+import { useState } from "react"
 
-const Content = (props) => {
-  return (
-    <>
-    <p>
-      {props.parts[0].name} {props.parts[0].exercises}
-    </p>
-    <p>
-      {props.parts[1].name} {props.parts[1].exercises}
-    </p>
-    <p>
-      {props.parts[2].name} {props.parts[2].exercises}
-  </p>
-    </>
-  )
-}
-
-const Total = (props) => {
-  
-  return (
-    <p>Number of exercises {props}</p>
-  )
-}
-
-
-const App = () => {
-  const course = 'Half Stack application development'
-  const parts = [{
-    name: 'Fundamentals of React',
-    exercises: 10
-  },
-  {
-    name: 'Using props to pass data',
-    exercises: 7
-  },
-  {
-    name: 'State of a component',
-    exercises: 14
-  },
-]
-
+const History = (props) => {
+  if (props.allClicks.length === 0) {
+    return (
+      <div>
+        the app is used by pressing the buttons
+      </div>
+    )
+  }
   return (
     <div>
-      <Header course={course} />
-      <Content parts={parts} />
-      <Total parts={parts} />
+      Button press history: {props.allClicks.join(' ')}
     </div>
   )
 }
 
-export default App
+const Button = ({ handleClick, text}) => {
+  return (
+    <button onClick={handleClick}>{text}</button>
+  )
+}
+
+const App = () => {
+  const [ left, setLeft ] = useState(0);
+  const [ right, setRight ] = useState(0);
+  const [ allClicks, setAll ] = useState([])
+  
+
+  const leftClicks = () => {
+    setAll(allClicks.concat('L'))
+    const updatedLeft = left + 1
+    setLeft(updatedLeft)
+    setTotal(updatedLeft + right)
+  }
+
+  const rightClicks = () => {
+    setAll(allClicks.concat('R'))
+    const updatedRight = right + 1
+    setRight(updatedRight)
+    setTotal(left + updatedRight)
+  }
+
+  return (
+    <div>
+      {left}
+      <Button handleClick={leftClicks} text="left" />
+      <Button handleClick={rightClicks} text="right" />
+      {right}
+      <History allClicks={allClicks} />
+    </div>
+  )
+}
+
+
+
+export default App;
